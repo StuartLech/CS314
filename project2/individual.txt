@@ -1,0 +1,2 @@
+Jimmy handled the coding on his laptop because we decided it would be better to work on his linux machine. He did a great job, and I assisted by diagnosing issues and offering debugger help. I was responsible for the majority of the .txt files in the project. Our collaboration worked well. Next time we could incorporate a version control system to manage our code better.
+

@@ -1,0 +1,13 @@
+How the solution come up:
+When I open traps.h  I saw this “
+#define TRAP_GETPID             0x431
+“ 
+which means that the trap vector for GetPID() is already assigned at 0x431. Therefore I added the following “
+.proc _Getpid
+.global _Getpid
+_Getpid:
+        trap    0x431
+        jr      r31
+        nop
+.endproc _Getpid
+“ on usertraps.h to provide user trap interface for GetPID. To get GetPID support in the kernel, I added an Interrupt cause case of TRAP_GETPID (which is defined as 0x431) in the dointerrupt(), where it would call and return the value Getpid() in process.c. To return the value of Getpid() from kernel to userprogram, I use ProcessSetResult (currentPCB, Getpid()); due to how it is used in traps.c, and I saw the pattern that currentPCB (pointer to the current process control block) is always passed as the argument and the value wanted to be return (in this case Getpid()) is always passed as the second argument. I also added RestoreIntrs (intrs); after that for good measure even though I don’t know what it does, because I see it always being added after dointerrupt() calls ProcessSetResult()in traps.c. After everything is set up, all I had to do then is to declare GetPid() in process.h (return int) and define it in process.c. When I looked at the end of ProcessFork() function definition, I saw that it returns the process number by subtracting the address of the PCB(process control block) referenced to the base address of the array containing all the pcb (array name is pcbs[]). Therefore, I deduced that to calculate the process ID, I just need to subtract the address of the current PCB to the address of the base of the pcbs array. Because currentPCB variable is the pointer that points to the current PCB, 

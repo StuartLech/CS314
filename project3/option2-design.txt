@@ -1,0 +1,32 @@
+Project Overview:
+This project implements a basic file system within a single fixed-size file, akin to the Old File System. The implementation is in C and follows Unix file system principles. The file system supports basic operations such as creating, reading, removing, and listing files.
+
+File System Structure:
+
+Superblock: The first section of the file system, containing metadata about the file system such as the number of blocks, the number of inodes, and pointers to the free list.
+Inodes: A series of inodes follow the superblock, each capable of referencing 100 direct blocks. Inodes store metadata about files (name, size, block pointers, etc.).
+Free Block List: A bitmap indicating free and used blocks.
+Data Blocks: The remainder of the file system is dedicated to data blocks where file and directory contents are stored.
+Files and Implementation:
+
+filesystem_manager.c: Handles command-line interactions and invokes appropriate file system operations based on user input. Supported operations are adding, removing, listing, and extracting files.
+filesystem_structs.h: Defines structures used across the file system, such as superblock, inode, and block structures. It also declares functions implemented in filesystem_operations.c.
+filesystem_operations.c: Contains the core logic for file system operations, including mapping the file system into memory, formatting, loading, adding/removing/listing files, and managing blocks.
+Functionality:
+
+File Addition (-a): Adds a file to the file system, allocating inodes and blocks as necessary.
+File Removal (-r): Removes a file, deallocating its inodes and blocks.
+File Listing (-l): Lists all files in the file system.
+File Extraction (-e): Extracts a file's contents to standard output.
+Command-Line Interface:
+The program uses getopt for parsing command-line arguments. Supported flags are -a, -r, -l, -e, and -f.
+
+Design Choices:
+
+Fixed-Size File System: The file system resides in a fixed-size file (10MB) to simplify the allocation and management of blocks.
+Simplicity in Inode Structure: Each inode can reference 100 direct blocks, eliminating the complexity of indirect block referencing.
+Bitmap for Free List: A bitmap is used for the free block list for efficiency.
+Error Handling: The program robustly handles file not found, file already exists, and other common errors.
+Testing and Verification:
+Extensive tests were conducted to ensure functionality. This includes adding, removing, listing, and extracting files, as well as verifying the integrity of extracted files against their originals using the diff command.
+

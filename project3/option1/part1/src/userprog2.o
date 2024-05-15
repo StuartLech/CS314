@@ -1,0 +1,50 @@
+; Compiled by GCC
+.data
+	.align 2
+LC0:
+	.ascii "\n in Userprog2, Sum : %d\000"
+.text
+	.align 2
+.proc _main
+.global _main
+_main:
+;  Function 'main'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	jal	___main
+	nop	; not filled.
+	addi	r3,r0,(#0x0)&0xff
+	addi	r31,r0,#0
+	addi	r2,r0,#28672
+L16:
+	sb	(r2),r31
+	addi	r2,r2,#8192
+	addi	r31,r31,#1
+	slei	r1,r31,#12
+	bnez	r1,L16
+	nop	; not filled.
+	addi	r31,r0,#28672
+	lhi	r4,#1
+	addui	r4,r4,#32768
+	or	r2,r31,r4
+L21:
+	lb	r4,(r31)
+	add	r3,r4,r3
+	addi	r31,r31,#8192
+	sle	r1,r31,r2
+	bnez	r1,L21
+	nop	; not filled.
+	addi	r29,r29,#-8
+	lhi	r4,((LC0)>>16)&0xffff
+	addui	r4,r4,(LC0)&0xffff
+	sw	(r29),r4
+	andi	r1,r3,#0x00ff
+	sw	4(r29),r1
+	jal	_Printf
+	nop	; not filled.
+	addi	r29,r29,#8
+	jal	_exit
+	nop
+.endproc _main

@@ -1,0 +1,21 @@
+Lottery Scheduling
+Process A:0.432 seconds
+Process B:0.422 seconds
+Process C:0.379 seconds
+Process D:0.355 seconds
+
+Round Robing Scheduling
+Process A:0.421 seconds
+Process B:0.431 seconds
+Process C:0.433 seconds
+Process D:0.435 seconds
+
+On both types of scheduling, Process A is created first, then Process B, C and D.
+
+In Round Robin scheduling, Process A finished first, then B, C, D, which is consistent
+with their order of creation.
+
+In Lottery Scheduling, Process A has 100 tickets, Process B has 200 tickets, Process C 
+has 300 tickets and Process D has 400 tickets. This means that D has a higher priority than 
+C, C than B, and B than A. The result is consistent with each process' priority, where D is
+finished first, then C, then B, and then A, even when the order of creation is reversed.

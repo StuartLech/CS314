@@ -1,0 +1,118 @@
+; Compiled by GCC
+.data
+	.align 2
+LC0:
+	.ascii "\nTesting case %d\n\000"
+	.align 2
+LC1:
+	.ascii "\nUsage: \000"
+	.align 2
+LC2:
+	.ascii " [case id]\n\n\000"
+	.align 2
+LC3:
+	.ascii "userprog1.dlx.obj\000"
+	.align 2
+LC4:
+	.ascii "userprog2.dlx.obj\000"
+	.align 2
+LC5:
+	.ascii "Test case %d not supported\n\000"
+.text
+	.align 2
+.proc _main
+.global _main
+_main:
+;  Function 'main'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r2,(r30)
+	lw	r3,4(r30)
+	jal	___main
+	nop	; not filled.
+	seqi	r1,r2,#2
+	beqz	r1,L14
+	nop	; not filled.
+	addi	r29,r29,#-16
+	lw	r3,4(r3)
+	sw	(r29),r3
+	addi	r4,r0,#0
+	sw	4(r29),r4
+	addi	r4,r0,#10
+	sw	8(r29),r4
+	jal	_dstrtol
+	nop	; not filled.
+	add	r2,r0,r1
+	lhi	r4,((LC0)>>16)&0xffff
+	addui	r4,r4,(LC0)&0xffff
+	sw	(r29),r4
+	sw	4(r29),r2
+	jal	_Printf
+	nop	; not filled.
+	addi	r29,r29,#16
+	j	L12
+	nop	; not filled.
+L14:
+	addi	r29,r29,#-8
+	lhi	r4,((LC1)>>16)&0xffff
+	addui	r4,r4,(LC1)&0xffff
+	sw	(r29),r4
+	jal	_Printf
+	nop	; not filled.
+	lw	r3,(r3)
+	sw	(r29),r3
+	jal	_Printf
+	nop	; not filled.
+	lhi	r4,((LC2)>>16)&0xffff
+	addui	r4,r4,(LC2)&0xffff
+	sw	(r29),r4
+	jal	_Printf
+	nop	; not filled.
+	jal	_exit
+	nop	; not filled.
+L12:
+	seqi	r1,r2,#1
+	bnez	r1,L17
+	nop	; not filled.
+	seqi	r1,r2,#2
+	beqz	r1,L19
+	nop	; not filled.
+	j	L18
+	nop	; not filled.
+L17:
+	addi	r29,r29,#-8
+	lhi	r4,((LC3)>>16)&0xffff
+	addui	r4,r4,(LC3)&0xffff
+	sw	(r29),r4
+	addi	r4,r0,#0
+	sw	4(r29),r4
+	jal	_process_create
+	nop	; not filled.
+	j	L21
+	nop	; not filled.
+L18:
+	addi	r29,r29,#-8
+	lhi	r4,((LC4)>>16)&0xffff
+	addui	r4,r4,(LC4)&0xffff
+	sw	(r29),r4
+	addi	r4,r0,#0
+	sw	4(r29),r4
+	jal	_process_create
+	nop	; not filled.
+	j	L21
+	nop	; not filled.
+L19:
+	addi	r29,r29,#-8
+	lhi	r4,((LC5)>>16)&0xffff
+	addui	r4,r4,(LC5)&0xffff
+	sw	(r29),r4
+	sw	4(r29),r2
+	jal	_Printf
+	nop	; not filled.
+L21:
+	addi	r29,r29,#8
+	jal	_exit
+	nop
+.endproc _main

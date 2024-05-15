@@ -1,0 +1,1776 @@
+; Compiled by GCC
+.data
+	.align 2
+_rcsid:
+	.ascii "$Id: traps.c,v 1.1 2000/09/20 01:50:19 elm Exp elm $\000"
+.text
+	.align 2
+.proc _isspace
+.global _isspace
+_isspace:
+;  Function 'isspace'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lb	r2,3(r30)
+	addi	r31,r0,#0
+	andi	r1,r2,#0x00ff
+	seqi	r1,r1,#32
+	bnez	r1,L6
+	nop	; not filled.
+	addi	r1,r2,#-9
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#1
+	beqz	r1,L5
+	nop	; not filled.
+L6:
+	addi	r31,r0,#1
+L5:
+	add	r1,r0,r31
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _isspace
+	.align 2
+.proc _isxdigit
+.global _isxdigit
+_isxdigit:
+;  Function 'isxdigit'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lb	r31,3(r30)
+	addi	r2,r0,#0
+	addi	r1,r31,#-48
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#9
+	bnez	r1,L12
+	nop	; not filled.
+	addi	r1,r31,#-97
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#5
+	bnez	r1,L12
+	nop	; not filled.
+	andi	r1,r31,#0x00ff
+	snei	r1,r1,#65
+	bnez	r1,L11
+	nop	; not filled.
+L12:
+	addi	r2,r0,#1
+L11:
+	add	r1,r0,r2
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _isxdigit
+	.align 2
+.proc _DisableIntrs
+.global _DisableIntrs
+_DisableIntrs:
+;  Function 'DisableIntrs'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	addi	r29,r29,#-8
+	addi	r2,r0,#15
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _DisableIntrs
+	.align 2
+.proc _EnableIntrs
+.global _EnableIntrs
+_EnableIntrs:
+;  Function 'EnableIntrs'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	addi	r29,r29,#-8
+	addi	r2,r0,#0
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _EnableIntrs
+	.align 2
+.proc _RestoreIntrs
+.global _RestoreIntrs
+_RestoreIntrs:
+;  Function 'RestoreIntrs'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	addi	r29,r29,#-8
+	lw	r2,(r30)
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _RestoreIntrs
+	.align 2
+.proc _QueueLinkInit
+.global _QueueLinkInit
+_QueueLinkInit:
+;  Function 'QueueLinkInit'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lw	r1,(r30)
+	lw	r2,4(r30)
+	addi	r31,r0,#0
+	sw	(r1),r31
+	sw	12(r1),r2
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueLinkInit
+	.align 2
+.proc _QueueNext
+.global _QueueNext
+_QueueNext:
+;  Function 'QueueNext'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueNext
+	.align 2
+.proc _QueuePrev
+.global _QueuePrev
+_QueuePrev:
+;  Function 'QueuePrev'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,4(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueuePrev
+	.align 2
+.proc _QueueFirst
+.global _QueueFirst
+_QueueFirst:
+;  Function 'QueueFirst'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueFirst
+	.align 2
+.proc _QueueLast
+.global _QueueLast
+_QueueLast:
+;  Function 'QueueLast'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,4(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueLast
+	.align 2
+.proc _QueueInsertAfter
+.global _QueueInsertAfter
+_QueueInsertAfter:
+;  Function 'QueueInsertAfter'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r3,(r30)
+	lw	r2,4(r30)
+	lw	r1,8(r30)
+	sw	8(r1),r3
+	sw	4(r1),r2
+	lw	r31,(r2)
+	sw	(r1),r31
+	sw	(r2),r1
+	lw	r2,(r1)
+	sw	4(r2),r1
+	lw	r1,8(r3)
+	addi	r1,r1,#1
+	sw	8(r3),r1
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueInsertAfter
+	.align 2
+.proc _QueueInsertFirst
+.global _QueueInsertFirst
+_QueueInsertFirst:
+;  Function 'QueueInsertFirst'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r3,(r30)
+	lw	r1,4(r30)
+	sw	8(r1),r3
+	sw	4(r1),r3
+	lw	r31,(r3)
+	sw	(r1),r31
+	sw	(r3),r1
+	lw	r2,(r1)
+	sw	4(r2),r1
+	lw	r1,8(r3)
+	addi	r1,r1,#1
+	sw	8(r3),r1
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueInsertFirst
+	.align 2
+.proc _QueueInsertLast
+.global _QueueInsertLast
+_QueueInsertLast:
+;  Function 'QueueInsertLast'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r3,(r30)
+	lw	r1,4(r30)
+	lw	r2,4(r3)
+	sw	8(r1),r3
+	sw	4(r1),r2
+	lw	r31,(r2)
+	sw	(r1),r31
+	sw	(r2),r1
+	lw	r2,(r1)
+	sw	4(r2),r1
+	lw	r1,8(r3)
+	addi	r1,r1,#1
+	sw	8(r3),r1
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueInsertLast
+	.align 2
+.proc _QueueRemove
+.global _QueueRemove
+_QueueRemove:
+;  Function 'QueueRemove'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r31,(r30)
+	lw	r1,8(r31)
+	lw	r1,8(r1)
+	sgti	r1,r1,#0
+	beqz	r1,L44
+	nop	; not filled.
+	lw	r1,4(r31)
+	lw	r3,(r31)
+	sw	(r1),r3
+	lw	r1,(r31)
+	lw	r3,4(r31)
+	sw	4(r1),r3
+	lw	r2,8(r31)
+	lw	r1,8(r2)
+	addi	r1,r1,#-1
+	sw	8(r2),r1
+L44:
+	addi	r3,r0,#0
+	sw	(r31),r3
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueRemove
+	.align 2
+.proc _QueueLength
+.global _QueueLength
+_QueueLength:
+;  Function 'QueueLength'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,8(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueLength
+	.align 2
+.proc _QueueEmpty
+.global _QueueEmpty
+_QueueEmpty:
+;  Function 'QueueEmpty'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,8(r1)
+	seqi	r1,r1,#0
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueEmpty
+	.align 2
+.proc _TimerSet
+.global _TimerSet
+_TimerSet:
+;  Function 'TimerSet'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lhi	r1,#-16
+	addui	r1,r1,#16
+	lw	r31,(r30)
+	sw	(r1),r31
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _TimerSet
+	.align 2
+.proc _KbdModuleInit
+.global _KbdModuleInit
+_KbdModuleInit:
+;  Function 'KbdModuleInit'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lhi	r1,#-16
+	addui	r1,r1,#448
+	addi	r31,r0,#1
+	sw	(r1),r31
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _KbdModuleInit
+.data
+	.align 2
+LC0:
+	.ascii "Fatal: Cumulative length of all arguments > 100\n\000"
+.text
+	.align 2
+.proc _TrapProcessCreateHandler
+_TrapProcessCreateHandler:
+;  Function 'TrapProcessCreateHandler'; 1640 bytes of locals, 11 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#1696	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	sw	16(r29),r6
+	sw	20(r29),r7
+	sw	24(r29),r8
+	sw	28(r29),r9
+	sw	32(r29),r10
+	sw	36(r29),r11
+	sw	40(r29),r12
+	lw	r4,(r30)
+	lw	r6,4(r30)
+	addi	r2,r30,#-1032
+	addi	r3,r30,#-933
+L65:
+	addi	r12,r0,(#0x0)&0xff
+	sb	(r2),r12
+	addi	r2,r2,#1
+	sle	r1,r2,r3
+	bnez	r1,L65
+	nop	; not filled.
+	addi	r5,r0,#0
+	snei	r1,r6,#0
+	bnez	r1,L67
+	nop	; not filled.
+	addi	r29,r29,#-16
+	lhi	r2,((_currentPCB)>>16)&0xffff
+	addui	r2,r2,(_currentPCB)&0xffff
+	lw	r12,(r2)
+	sw	(r29),r12
+	sw	4(r29),r4
+	addi	r1,r30,#-1648
+	sw	8(r29),r1
+	addi	r12,r0,#512
+	sw	12(r29),r12
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	addi	r29,r29,#16
+	addi	r4,r30,#-1137
+	addi	r3,r30,#-1136
+L68:
+	addi	r29,r29,#-16
+	lw	r12,(r2)
+	sw	(r29),r12
+	lw	r1,-1648(r30)
+	add	r1,r1,r5
+	sw	4(r29),r1
+	sw	8(r29),r3
+	addi	r12,r0,#1
+	sw	12(r29),r12
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	addi	r4,r4,#1
+	addi	r3,r3,#1
+	addi	r5,r5,#1
+	addi	r29,r29,#16
+	sleui	r1,r5,#99
+	beqz	r1,L73
+	nop	; not filled.
+	lbu	r1,(r4)
+	snei	r1,r1,#0
+	beqz	r1,L73
+	nop	; not filled.
+	j	L68
+	nop	; not filled.
+L67:
+	addi	r29,r29,#-16
+	sw	(r29),r4
+	addi	r1,r30,#-1648
+	sw	4(r29),r1
+	addi	r12,r0,#512
+	sw	8(r29),r12
+	jal	_bcopy
+	nop	; not filled.
+	lw	r12,-1648(r30)
+	sw	(r29),r12
+	addi	r1,r30,#-1136
+	sw	4(r29),r1
+	addi	r12,r0,#100
+	sw	8(r29),r12
+	jal	_dstrncpy
+	nop	; not filled.
+	addi	r29,r29,#16
+L73:
+	addi	r12,r0,(#0x0)&0xff
+	sb	-1037(r30),r12
+	addi	r5,r0,#0
+	snei	r1,r6,#0
+	bnez	r1,L74
+	nop	; not filled.
+	lhi	r8,((_currentPCB)>>16)&0xffff
+	addui	r8,r8,(_currentPCB)&0xffff
+	addi	r11,r30,#-1032
+	addi	r10,r30,#-1033
+	addi	r6,r30,#-8
+	addi	r9,r30,#32
+L85:
+	lw	r1,-1640(r6)
+	snei	r1,r1,#0
+	beqz	r1,L86
+	nop	; not filled.
+	addi	r2,r0,#0
+	add	r7,r0,r6
+	add	r4,r5,r10
+	add	r3,r5,r11
+L80:
+	addi	r29,r29,#-16
+	lw	r12,(r8)
+	sw	(r29),r12
+	lw	r1,-1640(r7)
+	add	r1,r1,r2
+	sw	4(r29),r1
+	sw	8(r29),r3
+	addi	r12,r0,#1
+	sw	12(r29),r12
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	addi	r4,r4,#1
+	addi	r3,r3,#1
+	addi	r5,r5,#1
+	addi	r2,r2,#1
+	addi	r29,r29,#16
+	sleui	r1,r5,#1023
+	beqz	r1,L77
+	nop	; not filled.
+	lbu	r1,(r4)
+	snei	r1,r1,#0
+	bnez	r1,L80
+	nop	; not filled.
+L77:
+	addi	r6,r6,#4
+	sle	r1,r6,r9
+	beqz	r1,L86
+	nop	; not filled.
+	j	L85
+	nop	; not filled.
+L74:
+	addi	r5,r30,#-1032
+	add	r7,r0,r5
+	addi	r3,r30,#-8
+	addi	r6,r30,#32
+L93:
+	addi	r4,r3,#-1640
+	lw	r2,(r4)
+	snei	r1,r2,#0
+	beqz	r1,L86
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	jal	_dstrlen
+	nop	; not filled.
+	add	r2,r5,r1
+	sub	r1,r2,r7
+	addi	r29,r29,#8
+	sgti	r1,r1,#100
+	beqz	r1,L92
+	nop	; not filled.
+	addi	r29,r29,#-8
+	lhi	r12,((LC0)>>16)&0xffff
+	addui	r12,r12,(LC0)&0xffff
+	sw	(r29),r12
+	jal	_printf
+	nop	; not filled.
+	jal	_exitsim
+	nop	; not filled.
+	addi	r29,r29,#8
+L92:
+	addi	r29,r29,#-8
+	sw	(r29),r5
+	lw	r1,(r4)
+	sw	4(r29),r1
+	jal	_dstrcpy
+	nop	; not filled.
+	addi	r12,r0,(#0x0)&0xff
+	sb	(r2),r12
+	addi	r29,r29,#8
+	addi	r3,r3,#4
+	sle	r1,r3,r6
+	bnez	r1,L93
+	nop	; not filled.
+L86:
+	addi	r12,r0,(#0x0)&0xff
+	sb	-9(r30),r12
+	addi	r29,r29,#-16
+	addi	r12,r0,#0
+	sw	(r29),r12
+	addi	r1,r30,#-1032
+	sw	4(r29),r1
+	addi	r1,r30,#-1136
+	sw	8(r29),r1
+	addi	r12,r0,#1
+	sw	12(r29),r12
+	jal	_ProcessFork
+	nop	; not filled.
+	addi	r29,r29,#16
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r6,16(r29)
+	lw	r7,20(r29)
+	lw	r8,24(r29)
+	lw	r9,28(r29)
+	lw	r10,32(r29)
+	lw	r11,36(r29)
+	lw	r12,40(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _TrapProcessCreateHandler
+	.align 2
+.proc _TrapPrintfHandler
+_TrapPrintfHandler:
+;  Function 'TrapPrintfHandler'; 160 bytes of locals, 10 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#208	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	sw	16(r29),r6
+	sw	20(r29),r7
+	sw	24(r29),r8
+	sw	28(r29),r9
+	sw	32(r29),r10
+	sw	36(r29),r11
+	lw	r4,(r30)
+	lw	r1,4(r30)
+	addi	r8,r0,#0
+	add	r3,r0,r8
+	snei	r1,r1,#0
+	bnez	r1,L95
+	nop	; not filled.
+	addi	r29,r29,#-16
+	lhi	r2,((_currentPCB)>>16)&0xffff
+	addui	r2,r2,(_currentPCB)&0xffff
+	lw	r11,(r2)
+	sw	(r29),r11
+	sw	4(r29),r4
+	addi	r1,r30,#-168
+	sw	8(r29),r1
+	addi	r11,r0,#40
+	sw	12(r29),r11
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	addi	r29,r29,#16
+	addi	r5,r30,#-89
+	addi	r4,r30,#-88
+L96:
+	addi	r29,r29,#-16
+	lw	r11,(r2)
+	sw	(r29),r11
+	lw	r1,-168(r30)
+	add	r1,r1,r3
+	sw	4(r29),r1
+	sw	8(r29),r4
+	addi	r11,r0,#1
+	sw	12(r29),r11
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	addi	r5,r5,#1
+	addi	r4,r4,#1
+	addi	r3,r3,#1
+	addi	r29,r29,#16
+	sleui	r1,r3,#79
+	beqz	r1,L101
+	nop	; not filled.
+	lbu	r1,(r5)
+	snei	r1,r1,#0
+	beqz	r1,L101
+	nop	; not filled.
+	j	L96
+	nop	; not filled.
+L95:
+	addi	r29,r29,#-16
+	sw	(r29),r4
+	addi	r1,r30,#-168
+	sw	4(r29),r1
+	addi	r11,r0,#40
+	sw	8(r29),r11
+	jal	_bcopy
+	nop	; not filled.
+	lw	r11,-168(r30)
+	sw	(r29),r11
+	addi	r1,r30,#-88
+	sw	4(r29),r1
+	addi	r11,r0,#80
+	sw	8(r29),r11
+	jal	_dstrncpy
+	nop	; not filled.
+	addi	r29,r29,#16
+L101:
+	addi	r11,r0,(#0x0)&0xff
+	sb	-9(r30),r11
+	addi	r3,r30,#-88
+	lb	r2,(r3)
+	andi	r1,r2,#0x00ff
+	snei	r1,r1,#0
+	beqz	r1,L103
+	nop	; not filled.
+	addi	r10,r30,#-8
+	addi	r9,r30,#-164
+	slli	r1,r8,#0x2
+	add	r7,r1,r9
+	add	r6,r1,r10
+L105:
+	andi	r1,r2,#0x00ff
+	seqi	r1,r1,#37
+	beqz	r1,L104
+	nop	; not filled.
+	lbu	r1,1(r3)
+	seqi	r1,r1,#37
+	beqz	r1,L107
+	nop	; not filled.
+	addi	r3,r3,#1
+	j	L104
+	nop	; not filled.
+L107:
+	lw	r11,(r7)
+	sw	-120(r6),r11
+	slli	r1,r8,#0x2
+	add	r5,r1,r9
+	add	r4,r1,r10
+L110:
+	addi	r3,r3,#1
+	lb	r31,(r3)
+	andi	r2,r31,#0x00ff
+	seqi	r1,r2,#115
+	bnez	r1,L109
+	nop	; not filled.
+	seqi	r1,r2,#108
+	bnez	r1,L110
+	nop	; not filled.
+	addi	r1,r31,#-102
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#1
+	bnez	r1,L116
+	nop	; not filled.
+	seqi	r1,r2,#101
+	beqz	r1,L115
+	nop	; not filled.
+L116:
+	addi	r7,r7,#4
+	addi	r6,r6,#4
+	addi	r8,r8,#1
+	lw	r5,4(r5)
+	sw	-116(r4),r5
+	j	L109
+	nop	; not filled.
+L115:
+	addi	r1,r31,#-97
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#25
+	beqz	r1,L110
+	nop	; not filled.
+L109:
+	addi	r7,r7,#4
+	addi	r6,r6,#4
+	addi	r8,r8,#1
+L104:
+	addi	r3,r3,#1
+	lb	r2,(r3)
+	andi	r1,r2,#0x00ff
+	snei	r1,r1,#0
+	bnez	r1,L105
+	nop	; not filled.
+L103:
+	addi	r29,r29,#-40
+	addi	r1,r30,#-88
+	sw	(r29),r1
+	lw	r1,-128(r30)
+	sw	4(r29),r1
+	lw	r11,-124(r30)
+	sw	8(r29),r11
+	lw	r11,-120(r30)
+	sw	12(r29),r11
+	lw	r11,-116(r30)
+	sw	16(r29),r11
+	lw	r11,-112(r30)
+	sw	20(r29),r11
+	lw	r11,-108(r30)
+	sw	24(r29),r11
+	lw	r11,-104(r30)
+	sw	28(r29),r11
+	lw	r11,-100(r30)
+	sw	32(r29),r11
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#40
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r6,16(r29)
+	lw	r7,20(r29)
+	lw	r8,24(r29)
+	lw	r9,28(r29)
+	lw	r10,32(r29)
+	lw	r11,36(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _TrapPrintfHandler
+.data
+	.align 2
+LC1:
+	.ascii "Interrupt cause=0x%x iar=0x%x isr=0x%x args=0x%08x.\n\000"
+	.align 2
+LC2:
+	.ascii "Got a context switch trap!\n\000"
+	.align 2
+LC3:
+	.ascii "Got an exit trap!\n\000"
+	.align 2
+LC4:
+	.ascii "Got a fork trap!\n\000"
+	.align 2
+LC5:
+	.ascii "Got a process sleep trap!\n\000"
+	.align 2
+LC6:
+	.ascii "Got a printf trap!\n\000"
+	.align 2
+LC7:
+	.ascii "Got an open with parameters (\'%s\',0x%x)\n\000"
+	.align 2
+LC8:
+	.ascii "Got an unrecognized trap (0x%x) - exiting!\n\000"
+	.align 2
+LC9:
+	.ascii "Got a timer interrupt!\n\000"
+	.align 2
+LC10:
+	.ascii "Got a keyboard interrupt (char=0x%x(%c), nleft=%d)!\n\000"
+	.align 2
+LC11:
+	.ascii "Exiting after illegal instruction at iar=0x%x, isr=0x%x\n\000"
+	.align 2
+LC12:
+	.ascii "Got an unrecognized system interrupt (0x%x) - exiting!\n\000"
+	.align 2
+LC13:
+	.ascii "About to return from dointerrupt.\n\000"
+.text
+	.align 2
+.proc _dointerrupt
+.global _dointerrupt
+_dointerrupt:
+;  Function 'dointerrupt'; 56 bytes of locals, 6 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#88	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	sw	16(r29),r6
+	sw	20(r29),r7
+	lw	r2,(r30)
+	lw	r6,4(r30)
+	lw	r5,8(r30)
+	lw	r3,12(r30)
+	addi	r29,r29,#-8
+	lhi	r4,((_debugstr)>>16)&0xffff
+	addui	r4,r4,(_debugstr)&0xffff
+	sw	(r29),r4
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L123
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r4
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L122
+	nop	; not filled.
+L123:
+	addi	r29,r29,#-24
+	lhi	r7,((LC1)>>16)&0xffff
+	addui	r7,r7,(LC1)&0xffff
+	sw	(r29),r7
+	sw	4(r29),r2
+	sw	8(r29),r6
+	sw	12(r29),r5
+	sw	16(r29),r3
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#24
+L122:
+	lhi	r7,#2048
+	addui	r7,r7,#0
+	and	r1,r2,r7
+	snei	r1,r1,#0
+	beqz	r1,L124
+	nop	; not filled.
+	lhi	r7,#-2049
+	addui	r7,r7,#65535
+	and	r2,r2,r7
+	seqi	r1,r2,#1024
+	bnez	r1,L126
+	nop	; not filled.
+	sgtui	r1,r2,#1024
+	bnez	r1,L177
+	nop	; not filled.
+	seqi	r1,r2,#530
+	bnez	r1,L158
+	nop	; not filled.
+	sgtui	r1,r2,#530
+	bnez	r1,L178
+	nop	; not filled.
+	seqi	r1,r2,#528
+	bnez	r1,L149
+	nop	; not filled.
+	sgtui	r1,r2,#528
+	bnez	r1,L152
+	nop	; not filled.
+	seqi	r1,r2,#513
+	beqz	r1,L175
+	nop	; not filled.
+	j	L138
+	nop	; not filled.
+L178:
+	seqi	r1,r2,#532
+	bnez	r1,L146
+	nop	; not filled.
+	sltui	r1,r2,#532
+	bnez	r1,L141
+	nop	; not filled.
+	seqi	r1,r2,#768
+	beqz	r1,L175
+	nop	; not filled.
+	j	L129
+	nop	; not filled.
+L177:
+	seqi	r1,r2,#1074
+	bnez	r1,L162
+	nop	; not filled.
+	sgtui	r1,r2,#1074
+	bnez	r1,L179
+	nop	; not filled.
+	seqi	r1,r2,#1072
+	bnez	r1,L132
+	nop	; not filled.
+	sgtui	r1,r2,#1072
+	bnez	r1,L161
+	nop	; not filled.
+	seqi	r1,r2,#1040
+	beqz	r1,L175
+	nop	; not filled.
+	j	L135
+	nop	; not filled.
+L179:
+	seqi	r1,r2,#1105
+	bnez	r1,L167
+	nop	; not filled.
+	sgtui	r1,r2,#1105
+	bnez	r1,L180
+	nop	; not filled.
+	seqi	r1,r2,#1104
+	beqz	r1,L175
+	nop	; not filled.
+	j	L163
+	nop	; not filled.
+L180:
+	seqi	r1,r2,#1106
+	bnez	r1,L171
+	nop	; not filled.
+	seqi	r1,r2,#1408
+	beqz	r1,L175
+	nop	; not filled.
+	j	L155
+	nop	; not filled.
+L126:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L128
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L184
+	nop	; not filled.
+L128:
+	addi	r29,r29,#-8
+	lhi	r7,((LC2)>>16)&0xffff
+	addui	r7,r7,(LC2)&0xffff
+	j	L206
+	nop	; not filled.
+L129:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L131
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L130
+	nop	; not filled.
+L131:
+	addi	r29,r29,#-8
+	lhi	r7,((LC3)>>16)&0xffff
+	addui	r7,r7,(LC3)&0xffff
+	sw	(r29),r7
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#8
+L130:
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	jal	_ProcessKill
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L132:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L134
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L181
+	nop	; not filled.
+L134:
+	addi	r29,r29,#-8
+	lhi	r7,((LC4)>>16)&0xffff
+	addui	r7,r7,(LC4)&0xffff
+	sw	(r29),r7
+	jal	_printf
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L135:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L137
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L136
+	nop	; not filled.
+L137:
+	addi	r29,r29,#-8
+	lhi	r7,((LC5)>>16)&0xffff
+	addui	r7,r7,(LC5)&0xffff
+	sw	(r29),r7
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#8
+L136:
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	jal	_ProcessSuspend
+	nop	; not filled.
+	jal	_ProcessSchedule
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L138:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L140
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L139
+	nop	; not filled.
+L140:
+	addi	r29,r29,#-8
+	lhi	r7,((LC6)>>16)&0xffff
+	addui	r7,r7,(LC6)&0xffff
+	sw	(r29),r7
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#8
+L139:
+	addi	r29,r29,#-8
+	sw	(r29),r3
+	andi	r1,r5,#64
+	sw	4(r29),r1
+	jal	_TrapPrintfHandler
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L141:
+	andi	r1,r5,#64
+	snei	r1,r1,#0
+	beqz	r1,L142
+	nop	; not filled.
+	lw	r7,(r3)
+	sw	-24(r30),r7
+	lw	r3,4(r3)
+	sw	-20(r30),r3
+	j	L143
+	nop	; not filled.
+L142:
+	addi	r29,r29,#-16
+	lhi	r2,((_currentPCB)>>16)&0xffff
+	addui	r2,r2,(_currentPCB)&0xffff
+	lw	r7,(r2)
+	sw	(r29),r7
+	sw	4(r29),r3
+	addi	r1,r30,#-24
+	sw	8(r29),r1
+	addi	r7,r0,#8
+	sw	12(r29),r7
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	lw	r2,(r2)
+	sw	(r29),r2
+	lw	r1,-24(r30)
+	sw	4(r29),r1
+	addi	r2,r30,#-56
+	sw	8(r29),r2
+	addi	r7,r0,#31
+	sw	12(r29),r7
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	addi	r7,r0,(#0x0)&0xff
+	sb	-25(r30),r7
+	sw	-24(r30),r2
+	addi	r29,r29,#16
+L143:
+	addi	r29,r29,#-8
+	addi	r7,r0,#0
+	sw	(r29),r7
+	jal	_SetIntrs
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	lw	r1,-20(r30)
+	lhi	r7,#1
+	addui	r7,r7,#0
+	add	r1,r1,r7
+	sw	4(r29),r1
+	jal	_ProcessSetResult
+	nop	; not filled.
+	addi	r29,r29,#-8
+	lhi	r7,((LC7)>>16)&0xffff
+	addui	r7,r7,(LC7)&0xffff
+	sw	(r29),r7
+	lw	r1,-24(r30)
+	sw	4(r29),r1
+	lw	r7,-20(r30)
+	sw	8(r29),r7
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#16
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L146:
+	addi	r29,r29,#-8
+	addi	r7,r0,#0
+	sw	(r29),r7
+	jal	_SetIntrs
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	addi	r7,r0,#-1
+	sw	4(r29),r7
+	jal	_ProcessSetResult
+	nop	; not filled.
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L149:
+	addi	r29,r29,#-8
+	addi	r7,r0,#0
+	sw	(r29),r7
+	jal	_SetIntrs
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	addi	r7,r0,#-1
+	sw	4(r29),r7
+	jal	_ProcessSetResult
+	nop	; not filled.
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L152:
+	addi	r29,r29,#-8
+	addi	r7,r0,#0
+	sw	(r29),r7
+	jal	_SetIntrs
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	addi	r7,r0,#-1
+	sw	4(r29),r7
+	jal	_ProcessSetResult
+	nop	; not filled.
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L155:
+	addi	r29,r29,#-8
+	addi	r7,r0,#0
+	sw	(r29),r7
+	jal	_SetIntrs
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	addi	r7,r0,#-1
+	sw	4(r29),r7
+	jal	_ProcessSetResult
+	nop	; not filled.
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L158:
+	addi	r29,r29,#-8
+	addi	r7,r0,#0
+	sw	(r29),r7
+	jal	_SetIntrs
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	addi	r7,r0,#-1
+	sw	4(r29),r7
+	jal	_ProcessSetResult
+	nop	; not filled.
+	addi	r29,r29,#8
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L161:
+	jal	_GetCurrentPid
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	sw	4(r29),r2
+	jal	_ProcessSetResult
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L162:
+	addi	r29,r29,#-8
+	sw	(r29),r3
+	andi	r1,r5,#64
+	sw	4(r29),r1
+	jal	_TrapProcessCreateHandler
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L163:
+	andi	r1,r5,#64
+	snei	r1,r1,#0
+	bnez	r1,L165
+	nop	; not filled.
+	addi	r29,r29,#-16
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	sw	4(r29),r3
+	addi	r1,r30,#-60
+	sw	8(r29),r1
+	addi	r7,r0,#4
+	sw	12(r29),r7
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	j	L202
+	nop	; not filled.
+L165:
+	addi	r29,r29,#-16
+	sw	(r29),r3
+	addi	r1,r30,#-60
+	sw	4(r29),r1
+	addi	r7,r0,#4
+	sw	8(r29),r7
+	jal	_bcopy
+	nop	; not filled.
+L202:
+	addi	r29,r29,#16
+	addi	r29,r29,#-8
+	lw	r7,-60(r30)
+	sw	(r29),r7
+	jal	_SemCreate
+	nop	; not filled.
+	add	r2,r0,r1
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	sw	4(r29),r2
+	jal	_ProcessSetResult
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L167:
+	andi	r1,r5,#64
+	snei	r1,r1,#0
+	bnez	r1,L169
+	nop	; not filled.
+	addi	r29,r29,#-16
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	sw	4(r29),r3
+	addi	r1,r30,#-60
+	sw	8(r29),r1
+	addi	r7,r0,#4
+	sw	12(r29),r7
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	j	L203
+	nop	; not filled.
+L169:
+	addi	r29,r29,#-16
+	sw	(r29),r3
+	addi	r1,r30,#-60
+	sw	4(r29),r1
+	addi	r7,r0,#4
+	sw	8(r29),r7
+	jal	_bcopy
+	nop	; not filled.
+L203:
+	addi	r29,r29,#16
+	addi	r29,r29,#-8
+	lw	r7,-60(r30)
+	sw	(r29),r7
+	jal	_SemHandleWait
+	nop	; not filled.
+	add	r2,r0,r1
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	sw	4(r29),r2
+	jal	_ProcessSetResult
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L171:
+	andi	r1,r5,#64
+	snei	r1,r1,#0
+	bnez	r1,L173
+	nop	; not filled.
+	addi	r29,r29,#-16
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	sw	4(r29),r3
+	addi	r1,r30,#-60
+	sw	8(r29),r1
+	addi	r7,r0,#4
+	sw	12(r29),r7
+	jal	_MemoryCopyUserToSystem
+	nop	; not filled.
+	j	L204
+	nop	; not filled.
+L173:
+	addi	r29,r29,#-16
+	sw	(r29),r3
+	addi	r1,r30,#-60
+	sw	4(r29),r1
+	addi	r7,r0,#4
+	sw	8(r29),r7
+	jal	_bcopy
+	nop	; not filled.
+L204:
+	addi	r29,r29,#16
+	addi	r29,r29,#-8
+	lw	r7,-60(r30)
+	sw	(r29),r7
+	jal	_SemHandleSignal
+	nop	; not filled.
+	add	r2,r0,r1
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	sw	4(r29),r2
+	jal	_ProcessSetResult
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L175:
+	addi	r29,r29,#-8
+	lhi	r7,((LC8)>>16)&0xffff
+	addui	r7,r7,(LC8)&0xffff
+	j	L205
+	nop	; not filled.
+L124:
+	seqi	r1,r2,#3
+	bnez	r1,L191
+	nop	; not filled.
+	sgtui	r1,r2,#3
+	bnez	r1,L197
+	nop	; not filled.
+	seqi	r1,r2,#1
+	bnez	r1,L193
+	nop	; not filled.
+	seqi	r1,r2,#2
+	beqz	r1,L195
+	nop	; not filled.
+	j	L192
+	nop	; not filled.
+L197:
+	seqi	r1,r2,#64
+	bnez	r1,L183
+	nop	; not filled.
+	sgtui	r1,r2,#64
+	bnez	r1,L198
+	nop	; not filled.
+	seqi	r1,r2,#32
+	beqz	r1,L195
+	nop	; not filled.
+	j	L194
+	nop	; not filled.
+L198:
+	seqi	r1,r2,#72
+	beqz	r1,L195
+	nop	; not filled.
+	j	L186
+	nop	; not filled.
+L183:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L185
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L184
+	nop	; not filled.
+L185:
+	addi	r29,r29,#-8
+	lhi	r7,((LC9)>>16)&0xffff
+	addui	r7,r7,(LC9)&0xffff
+L206:
+	sw	(r29),r7
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#8
+L184:
+	jal	_ProcessSchedule
+	nop	; not filled.
+	j	L181
+	nop	; not filled.
+L186:
+	lhi	r4,#-16
+	addui	r4,r4,#416
+	lhi	r3,#-16
+	addui	r3,r3,#384
+L187:
+	lw	r2,(r4)
+	lw	r1,(r3)
+	addi	r29,r29,#-16
+	lhi	r7,((LC10)>>16)&0xffff
+	addui	r7,r7,(LC10)&0xffff
+	sw	(r29),r7
+	sw	4(r29),r1
+	sw	8(r29),r1
+	sw	12(r29),r2
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#16
+	sgti	r1,r2,#1
+	beqz	r1,L181
+	nop	; not filled.
+	j	L187
+	nop	; not filled.
+L191:
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	jal	_ProcessKill
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L192:
+	addi	r29,r29,#-8
+	lhi	r1,((_currentPCB)>>16)&0xffff
+	addui	r1,r1,(_currentPCB)&0xffff
+	lw	r1,(r1)
+	sw	(r29),r1
+	jal	_ProcessKill
+	nop	; not filled.
+	j	L201
+	nop	; not filled.
+L193:
+	addi	r29,r29,#-16
+	lhi	r7,((LC11)>>16)&0xffff
+	addui	r7,r7,(LC11)&0xffff
+	sw	(r29),r7
+	sw	4(r29),r6
+	sw	8(r29),r5
+	jal	_printf
+	nop	; not filled.
+	jal	_exitsim
+	nop	; not filled.
+	addi	r29,r29,#16
+	j	L181
+	nop	; not filled.
+L194:
+	jal	_PageFaultHandler
+	nop	; not filled.
+	j	L181
+	nop	; not filled.
+L195:
+	addi	r29,r29,#-8
+	lhi	r7,((LC12)>>16)&0xffff
+	addui	r7,r7,(LC12)&0xffff
+L205:
+	sw	(r29),r7
+	sw	4(r29),r2
+	jal	_printf
+	nop	; not filled.
+	jal	_exitsim
+	nop	; not filled.
+L201:
+	addi	r29,r29,#8
+L181:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r7,r0,#116
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L200
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r7,r0,#43
+	sw	4(r29),r7
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L199
+	nop	; not filled.
+L200:
+	addi	r29,r29,#-8
+	lhi	r7,((LC13)>>16)&0xffff
+	addui	r7,r7,(LC13)&0xffff
+	sw	(r29),r7
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#8
+L199:
+	jal	_intrreturn
+	nop	; not filled.
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r6,16(r29)
+	lw	r7,20(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _dointerrupt

@@ -1,0 +1,1466 @@
+; Compiled by GCC
+.data
+	.align 2
+_rcsid:
+	.ascii "$Id: filesys.c,v 1.1 2000/09/20 01:50:19 elm Exp elm $\000"
+.text
+	.align 2
+.proc _isspace
+.global _isspace
+_isspace:
+;  Function 'isspace'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lb	r2,3(r30)
+	addi	r31,r0,#0
+	andi	r1,r2,#0x00ff
+	seqi	r1,r1,#32
+	bnez	r1,L6
+	nop	; not filled.
+	addi	r1,r2,#-9
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#1
+	beqz	r1,L5
+	nop	; not filled.
+L6:
+	addi	r31,r0,#1
+L5:
+	add	r1,r0,r31
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _isspace
+	.align 2
+.proc _isxdigit
+.global _isxdigit
+_isxdigit:
+;  Function 'isxdigit'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lb	r31,3(r30)
+	addi	r2,r0,#0
+	addi	r1,r31,#-48
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#9
+	bnez	r1,L12
+	nop	; not filled.
+	addi	r1,r31,#-97
+	andi	r1,r1,#0x00ff
+	sleui	r1,r1,#5
+	bnez	r1,L12
+	nop	; not filled.
+	andi	r1,r31,#0x00ff
+	snei	r1,r1,#65
+	bnez	r1,L11
+	nop	; not filled.
+L12:
+	addi	r2,r0,#1
+L11:
+	add	r1,r0,r2
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _isxdigit
+	.align 2
+.proc _DisableIntrs
+.global _DisableIntrs
+_DisableIntrs:
+;  Function 'DisableIntrs'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	addi	r29,r29,#-8
+	addi	r2,r0,#15
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _DisableIntrs
+	.align 2
+.proc _EnableIntrs
+.global _EnableIntrs
+_EnableIntrs:
+;  Function 'EnableIntrs'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	addi	r29,r29,#-8
+	addi	r2,r0,#0
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _EnableIntrs
+	.align 2
+.proc _RestoreIntrs
+.global _RestoreIntrs
+_RestoreIntrs:
+;  Function 'RestoreIntrs'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	addi	r29,r29,#-8
+	lw	r2,(r30)
+	sw	(r29),r2
+	jal	_SetIntrs
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _RestoreIntrs
+	.align 2
+.proc _QueueLinkInit
+.global _QueueLinkInit
+_QueueLinkInit:
+;  Function 'QueueLinkInit'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lw	r1,(r30)
+	lw	r2,4(r30)
+	addi	r31,r0,#0
+	sw	(r1),r31
+	sw	12(r1),r2
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueLinkInit
+	.align 2
+.proc _QueueNext
+.global _QueueNext
+_QueueNext:
+;  Function 'QueueNext'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueNext
+	.align 2
+.proc _QueuePrev
+.global _QueuePrev
+_QueuePrev:
+;  Function 'QueuePrev'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,4(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueuePrev
+	.align 2
+.proc _QueueFirst
+.global _QueueFirst
+_QueueFirst:
+;  Function 'QueueFirst'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueFirst
+	.align 2
+.proc _QueueLast
+.global _QueueLast
+_QueueLast:
+;  Function 'QueueLast'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,4(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueLast
+	.align 2
+.proc _QueueInsertAfter
+.global _QueueInsertAfter
+_QueueInsertAfter:
+;  Function 'QueueInsertAfter'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r3,(r30)
+	lw	r2,4(r30)
+	lw	r1,8(r30)
+	sw	8(r1),r3
+	sw	4(r1),r2
+	lw	r31,(r2)
+	sw	(r1),r31
+	sw	(r2),r1
+	lw	r2,(r1)
+	sw	4(r2),r1
+	lw	r1,8(r3)
+	addi	r1,r1,#1
+	sw	8(r3),r1
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueInsertAfter
+	.align 2
+.proc _QueueInsertFirst
+.global _QueueInsertFirst
+_QueueInsertFirst:
+;  Function 'QueueInsertFirst'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r3,(r30)
+	lw	r1,4(r30)
+	sw	8(r1),r3
+	sw	4(r1),r3
+	lw	r31,(r3)
+	sw	(r1),r31
+	sw	(r3),r1
+	lw	r2,(r1)
+	sw	4(r2),r1
+	lw	r1,8(r3)
+	addi	r1,r1,#1
+	sw	8(r3),r1
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueInsertFirst
+	.align 2
+.proc _QueueInsertLast
+.global _QueueInsertLast
+_QueueInsertLast:
+;  Function 'QueueInsertLast'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r3,(r30)
+	lw	r1,4(r30)
+	lw	r2,4(r3)
+	sw	8(r1),r3
+	sw	4(r1),r2
+	lw	r31,(r2)
+	sw	(r1),r31
+	sw	(r2),r1
+	lw	r2,(r1)
+	sw	4(r2),r1
+	lw	r1,8(r3)
+	addi	r1,r1,#1
+	sw	8(r3),r1
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueInsertLast
+	.align 2
+.proc _QueueRemove
+.global _QueueRemove
+_QueueRemove:
+;  Function 'QueueRemove'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r31,(r30)
+	lw	r1,8(r31)
+	lw	r1,8(r1)
+	sgti	r1,r1,#0
+	beqz	r1,L44
+	nop	; not filled.
+	lw	r1,4(r31)
+	lw	r3,(r31)
+	sw	(r1),r3
+	lw	r1,(r31)
+	lw	r3,4(r31)
+	sw	4(r1),r3
+	lw	r2,8(r31)
+	lw	r1,8(r2)
+	addi	r1,r1,#-1
+	sw	8(r2),r1
+L44:
+	addi	r3,r0,#0
+	sw	(r31),r3
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueRemove
+	.align 2
+.proc _QueueLength
+.global _QueueLength
+_QueueLength:
+;  Function 'QueueLength'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,8(r1)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueLength
+	.align 2
+.proc _QueueEmpty
+.global _QueueEmpty
+_QueueEmpty:
+;  Function 'QueueEmpty'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	lw	r1,(r30)
+	lw	r1,8(r1)
+	seqi	r1,r1,#0
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _QueueEmpty
+.data
+	.align 2
+LC0:
+	.ascii "Attepmting to open %s mode=%d.\n\000"
+	.align 2
+LC1:
+	.ascii "dlx:\000"
+	.align 2
+LC2:
+	.ascii "File %s opening in file system %d.\n\000"
+	.align 2
+LC3:
+	.ascii "Opened %s in FS %d, mode=%d slot=%d.\n\000"
+.text
+	.align 2
+.proc _FsOpen
+.global _FsOpen
+_FsOpen:
+;  Function 'FsOpen'; 0 bytes of locals, 7 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#40	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	sw	16(r29),r6
+	sw	20(r29),r7
+	sw	24(r29),r8
+	lw	r4,(r30)
+	lw	r5,4(r30)
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r8,r0,#102
+	sw	4(r29),r8
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L56
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r8,r0,#43
+	sw	4(r29),r8
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L55
+	nop	; not filled.
+L56:
+	addi	r29,r29,#-16
+	lhi	r8,((LC0)>>16)&0xffff
+	addui	r8,r8,(LC0)&0xffff
+	sw	(r29),r8
+	sw	4(r29),r4
+	sw	8(r29),r5
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#16
+L55:
+	andi	r5,r5,#3
+	snei	r1,r5,#0
+	beqz	r1,L74
+	nop	; not filled.
+	addi	r3,r0,#0
+	lhi	r6,((_openfiles)>>16)&0xffff
+	addui	r6,r6,(_openfiles)&0xffff
+	add	r2,r0,r6
+L61:
+	lw	r1,4(r2)
+	snei	r1,r1,#0
+	beqz	r1,L59
+	nop	; not filled.
+	addi	r2,r2,#268
+	addi	r3,r3,#1
+	slei	r1,r3,#31
+	bnez	r1,L61
+	nop	; not filled.
+L59:
+	sgti	r1,r3,#31
+	beqz	r1,L64
+	nop	; not filled.
+L74:
+	addi	r1,r0,#-1
+	j	L73
+	nop	; not filled.
+L64:
+	slli	r1,r3,#0x4
+	add	r1,r1,r3
+	slli	r1,r1,#0x2
+	sub	r1,r1,r3
+	slli	r1,r1,#0x2
+	add	r2,r1,r6
+	sw	4(r2),r5
+	addi	r29,r29,#-16
+	sw	(r29),r4
+	lhi	r1,((LC1)>>16)&0xffff
+	addui	r1,r1,(LC1)&0xffff
+	sw	4(r29),r1
+	addi	r8,r0,#4
+	sw	8(r29),r8
+	jal	_dstrncmp
+	nop	; not filled.
+	addi	r29,r29,#16
+	snei	r1,r1,#0
+	bnez	r1,L65
+	nop	; not filled.
+	addi	r4,r4,#4
+	addi	r8,r0,#1
+	j	L75
+	nop	; not filled.
+L65:
+	addi	r8,r0,#0
+L75:
+	sw	(r2),r8
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r8,r0,#102
+	sw	4(r29),r8
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L68
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r8,r0,#43
+	sw	4(r29),r8
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L67
+	nop	; not filled.
+L68:
+	addi	r29,r29,#-16
+	lhi	r8,((LC2)>>16)&0xffff
+	addui	r8,r8,(LC2)&0xffff
+	sw	(r29),r8
+	sw	4(r29),r4
+	slli	r1,r3,#0x4
+	add	r1,r1,r3
+	slli	r1,r1,#0x2
+	sub	r1,r1,r3
+	slli	r1,r1,#0x2
+	lhi	r8,((_openfiles)>>16)&0xffff
+	addui	r8,r8,(_openfiles)&0xffff
+	add	r1,r1,r8
+	lw	r1,(r1)
+	sw	8(r29),r1
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#16
+L67:
+	addi	r29,r29,#-16
+	slli	r1,r3,#0x4
+	add	r1,r1,r3
+	slli	r1,r1,#0x2
+	sub	r1,r1,r3
+	slli	r6,r1,#0x2
+	lhi	r8,((_openfiles)>>16)&0xffff
+	addui	r8,r8,(_openfiles)&0xffff
+	add	r7,r6,r8
+	lw	r2,(r7)
+	slli	r1,r2,#0x1
+	add	r1,r1,r2
+	slli	r1,r1,#0x3
+	lhi	r8,((_fs)>>16)&0xffff
+	addui	r8,r8,(_fs)&0xffff
+	add	r1,r1,r8
+	sw	(r29),r3
+	sw	4(r29),r4
+	sw	8(r29),r5
+	lw	r1,(r1)
+	jalr	r1
+	nop	; not filled.
+	add	r2,r0,r1
+	addi	r29,r29,#16
+	slti	r1,r2,#0
+	beqz	r1,L69
+	nop	; not filled.
+	lhi	r8,((_openfiles)>>16)&0xffff
+	addui	r8,r8,(_openfiles)&0xffff
+	add	r1,r6,r8
+	addi	r8,r0,#0
+	sw	4(r1),r8
+	add	r1,r0,r2
+	j	L73
+	nop	; not filled.
+L69:
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r8,r0,#102
+	sw	4(r29),r8
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L72
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r8,r0,#43
+	sw	4(r29),r8
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L71
+	nop	; not filled.
+L72:
+	addi	r29,r29,#-24
+	lhi	r8,((LC3)>>16)&0xffff
+	addui	r8,r8,(LC3)&0xffff
+	sw	(r29),r8
+	sw	4(r29),r4
+	lw	r7,(r7)
+	sw	8(r29),r7
+	sw	12(r29),r5
+	sw	16(r29),r3
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#24
+L71:
+	add	r1,r0,r3
+L73:
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r6,16(r29)
+	lw	r7,20(r29)
+	lw	r8,24(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsOpen
+	.align 2
+.proc _FsClose
+.global _FsClose
+_FsClose:
+;  Function 'FsClose'; 0 bytes of locals, 3 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#24	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	lw	r31,(r30)
+	addi	r2,r0,#0
+	addi	r1,r31,#-1
+	sleui	r1,r1,#30
+	beqz	r1,L84
+	nop	; not filled.
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r1,r1,#0x2
+	lhi	r4,((_openfiles)>>16)&0xffff
+	addui	r4,r4,(_openfiles)&0xffff
+	add	r1,r1,r4
+	lw	r1,4(r1)
+	snei	r1,r1,#0
+	beqz	r1,L84
+	nop	; not filled.
+	addi	r2,r0,#1
+L84:
+	snei	r1,r2,#0
+	beqz	r1,L82
+	nop	; not filled.
+	addi	r29,r29,#-8
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r3,r1,#0x2
+	lhi	r4,((_openfiles)>>16)&0xffff
+	addui	r4,r4,(_openfiles)&0xffff
+	add	r1,r3,r4
+	lw	r2,(r1)
+	slli	r1,r2,#0x1
+	add	r1,r1,r2
+	slli	r1,r1,#0x3
+	lhi	r4,((_fs)>>16)&0xffff
+	addui	r4,r4,(_fs)&0xffff
+	add	r1,r1,r4
+	sw	(r29),r31
+	lw	r1,16(r1)
+	jalr	r1
+	nop	; not filled.
+	addi	r29,r29,#8
+	lhi	r4,((_openfiles)>>16)&0xffff
+	addui	r4,r4,(_openfiles)&0xffff
+	add	r2,r3,r4
+	addi	r4,r0,#0
+	sw	4(r2),r4
+	j	L86
+	nop	; not filled.
+L82:
+	addi	r1,r0,#-1
+L86:
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsClose
+	.align 2
+.proc _FsRead
+.global _FsRead
+_FsRead:
+;  Function 'FsRead'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r31,(r30)
+	addi	r2,r0,#0
+	addi	r1,r31,#-1
+	sleui	r1,r1,#30
+	beqz	r1,L94
+	nop	; not filled.
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r1,r1,#0x2
+	lhi	r3,((_openfiles)>>16)&0xffff
+	addui	r3,r3,(_openfiles)&0xffff
+	add	r1,r1,r3
+	lw	r1,4(r1)
+	snei	r1,r1,#0
+	beqz	r1,L94
+	nop	; not filled.
+	addi	r2,r0,#1
+L94:
+	snei	r1,r2,#0
+	beqz	r1,L92
+	nop	; not filled.
+	addi	r29,r29,#-16
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r1,r1,#0x2
+	lhi	r3,((_openfiles)>>16)&0xffff
+	addui	r3,r3,(_openfiles)&0xffff
+	add	r1,r1,r3
+	lw	r2,(r1)
+	slli	r1,r2,#0x1
+	add	r1,r1,r2
+	slli	r1,r1,#0x3
+	lhi	r3,((_fs)>>16)&0xffff
+	addui	r3,r3,(_fs)&0xffff
+	add	r1,r1,r3
+	sw	(r29),r31
+	lw	r3,4(r30)
+	sw	4(r29),r3
+	lw	r3,8(r30)
+	sw	8(r29),r3
+	lw	r1,4(r1)
+	jalr	r1
+	nop	; not filled.
+	addi	r29,r29,#16
+	j	L91
+	nop	; not filled.
+L92:
+	addi	r1,r0,#-1
+L91:
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsRead
+	.align 2
+.proc _FsWrite
+.global _FsWrite
+_FsWrite:
+;  Function 'FsWrite'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r31,(r30)
+	addi	r2,r0,#0
+	addi	r1,r31,#-1
+	sleui	r1,r1,#30
+	beqz	r1,L103
+	nop	; not filled.
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r1,r1,#0x2
+	lhi	r3,((_openfiles)>>16)&0xffff
+	addui	r3,r3,(_openfiles)&0xffff
+	add	r1,r1,r3
+	lw	r1,4(r1)
+	snei	r1,r1,#0
+	beqz	r1,L103
+	nop	; not filled.
+	addi	r2,r0,#1
+L103:
+	snei	r1,r2,#0
+	beqz	r1,L101
+	nop	; not filled.
+	addi	r29,r29,#-16
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r1,r1,#0x2
+	lhi	r3,((_openfiles)>>16)&0xffff
+	addui	r3,r3,(_openfiles)&0xffff
+	add	r1,r1,r3
+	lw	r2,(r1)
+	slli	r1,r2,#0x1
+	add	r1,r1,r2
+	slli	r1,r1,#0x3
+	lhi	r3,((_fs)>>16)&0xffff
+	addui	r3,r3,(_fs)&0xffff
+	add	r1,r1,r3
+	sw	(r29),r31
+	lw	r3,4(r30)
+	sw	4(r29),r3
+	lw	r3,8(r30)
+	sw	8(r29),r3
+	lw	r1,8(r1)
+	jalr	r1
+	nop	; not filled.
+	addi	r29,r29,#16
+	j	L100
+	nop	; not filled.
+L101:
+	addi	r1,r0,#-1
+L100:
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsWrite
+	.align 2
+.proc _FsSeek
+.global _FsSeek
+_FsSeek:
+;  Function 'FsSeek'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r31,(r30)
+	addi	r2,r0,#0
+	addi	r1,r31,#-1
+	sleui	r1,r1,#30
+	beqz	r1,L112
+	nop	; not filled.
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r1,r1,#0x2
+	lhi	r3,((_openfiles)>>16)&0xffff
+	addui	r3,r3,(_openfiles)&0xffff
+	add	r1,r1,r3
+	lw	r1,4(r1)
+	snei	r1,r1,#0
+	beqz	r1,L112
+	nop	; not filled.
+	addi	r2,r0,#1
+L112:
+	snei	r1,r2,#0
+	beqz	r1,L110
+	nop	; not filled.
+	addi	r29,r29,#-16
+	slli	r1,r31,#0x4
+	add	r1,r1,r31
+	slli	r1,r1,#0x2
+	sub	r1,r1,r31
+	slli	r1,r1,#0x2
+	lhi	r3,((_openfiles)>>16)&0xffff
+	addui	r3,r3,(_openfiles)&0xffff
+	add	r1,r1,r3
+	lw	r2,(r1)
+	slli	r1,r2,#0x1
+	add	r1,r1,r2
+	slli	r1,r1,#0x3
+	lhi	r3,((_fs)>>16)&0xffff
+	addui	r3,r3,(_fs)&0xffff
+	add	r1,r1,r3
+	sw	(r29),r31
+	lw	r3,4(r30)
+	sw	4(r29),r3
+	lw	r3,8(r30)
+	sw	8(r29),r3
+	lw	r1,12(r1)
+	jalr	r1
+	nop	; not filled.
+	addi	r29,r29,#16
+	j	L109
+	nop	; not filled.
+L110:
+	addi	r1,r0,#-1
+L109:
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsSeek
+	.align 2
+.proc _FsDelete
+.global _FsDelete
+_FsDelete:
+;  Function 'FsDelete'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r2,(r30)
+	addi	r29,r29,#-16
+	sw	(r29),r2
+	lhi	r1,((LC1)>>16)&0xffff
+	addui	r1,r1,(LC1)&0xffff
+	sw	4(r29),r1
+	addi	r3,r0,#4
+	sw	8(r29),r3
+	jal	_dstrncmp
+	nop	; not filled.
+	addi	r29,r29,#16
+	snei	r1,r1,#0
+	bnez	r1,L118
+	nop	; not filled.
+	addi	r2,r2,#4
+	addi	r29,r29,#-8
+	lhi	r1,((_fs+44)>>16)&0xffff
+	addui	r1,r1,(_fs+44)&0xffff
+	j	L120
+	nop	; not filled.
+L118:
+	addi	r29,r29,#-8
+	lhi	r1,((_fs+20)>>16)&0xffff
+	addui	r1,r1,(_fs+20)&0xffff
+L120:
+	sw	(r29),r2
+	lw	r1,(r1)
+	jalr	r1
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDelete
+.data
+	.align 2
+LC4:
+	.ascii "Attempting to open file %s into desc %d, mode %d.\n\000"
+.text
+	.align 2
+.proc _FsUnixOpen
+.global _FsUnixOpen
+_FsUnixOpen:
+;  Function 'FsUnixOpen'; 0 bytes of locals, 5 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#32	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	sw	16(r29),r6
+	lw	r4,(r30)
+	lw	r3,4(r30)
+	lw	r5,8(r30)
+	addi	r29,r29,#-8
+	lhi	r2,((_debugstr)>>16)&0xffff
+	addui	r2,r2,(_debugstr)&0xffff
+	sw	(r29),r2
+	addi	r6,r0,#102
+	sw	4(r29),r6
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	bnez	r1,L127
+	nop	; not filled.
+	addi	r29,r29,#-8
+	sw	(r29),r2
+	addi	r6,r0,#43
+	sw	4(r29),r6
+	jal	_dindex
+	nop	; not filled.
+	addi	r29,r29,#8
+	snei	r1,r1,#0
+	beqz	r1,L126
+	nop	; not filled.
+L127:
+	addi	r29,r29,#-16
+	lhi	r6,((LC4)>>16)&0xffff
+	addui	r6,r6,(LC4)&0xffff
+	sw	(r29),r6
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	jal	_printf
+	nop	; not filled.
+	addi	r29,r29,#16
+L126:
+	addi	r29,r29,#-8
+	sw	(r29),r3
+	sw	4(r29),r5
+	jal	_open
+	nop	; not filled.
+	add	r3,r0,r1
+	slli	r1,r4,#0x4
+	add	r1,r1,r4
+	slli	r1,r1,#0x2
+	sub	r1,r1,r4
+	slli	r1,r1,#0x2
+	lhi	r6,((_openfiles)>>16)&0xffff
+	addui	r6,r6,(_openfiles)&0xffff
+	add	r1,r1,r6
+	sw	264(r1),r3
+	addi	r29,r29,#8
+	slti	r2,r3,#0
+	add	r1,r0,r3
+	bnez	r2,L128
+	nop	; not filled.
+	addi	r1,r0,#1
+L128:
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r6,16(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsUnixOpen
+	.align 2
+.proc _FsUnixRead
+.global _FsUnixRead
+_FsUnixRead:
+;  Function 'FsUnixRead'; 0 bytes of locals, 4 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#24	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	lw	r2,(r30)
+	lw	r3,4(r30)
+	lw	r4,8(r30)
+	addi	r29,r29,#-16
+	slli	r1,r2,#0x4
+	add	r1,r1,r2
+	slli	r1,r1,#0x2
+	sub	r1,r1,r2
+	slli	r1,r1,#0x2
+	lhi	r5,((_openfiles)>>16)&0xffff
+	addui	r5,r5,(_openfiles)&0xffff
+	add	r1,r1,r5
+	lw	r1,264(r1)
+	sw	(r29),r1
+	sw	4(r29),r3
+	sw	8(r29),r4
+	jal	_read
+	nop	; not filled.
+	addi	r29,r29,#16
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsUnixRead
+	.align 2
+.proc _FsUnixWrite
+.global _FsUnixWrite
+_FsUnixWrite:
+;  Function 'FsUnixWrite'; 0 bytes of locals, 4 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#24	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	lw	r2,(r30)
+	lw	r3,4(r30)
+	lw	r4,8(r30)
+	addi	r29,r29,#-16
+	slli	r1,r2,#0x4
+	add	r1,r1,r2
+	slli	r1,r1,#0x2
+	sub	r1,r1,r2
+	slli	r1,r1,#0x2
+	lhi	r5,((_openfiles)>>16)&0xffff
+	addui	r5,r5,(_openfiles)&0xffff
+	add	r1,r1,r5
+	lw	r1,264(r1)
+	sw	(r29),r1
+	sw	4(r29),r3
+	sw	8(r29),r4
+	jal	_write
+	nop	; not filled.
+	addi	r29,r29,#16
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsUnixWrite
+	.align 2
+.proc _FsUnixSeek
+.global _FsUnixSeek
+_FsUnixSeek:
+;  Function 'FsUnixSeek'; 0 bytes of locals, 4 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#24	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	sw	8(r29),r4
+	sw	12(r29),r5
+	lw	r2,(r30)
+	lw	r3,4(r30)
+	lw	r4,8(r30)
+	addi	r29,r29,#-16
+	slli	r1,r2,#0x4
+	add	r1,r1,r2
+	slli	r1,r1,#0x2
+	sub	r1,r1,r2
+	slli	r1,r1,#0x2
+	lhi	r5,((_openfiles)>>16)&0xffff
+	addui	r5,r5,(_openfiles)&0xffff
+	add	r1,r1,r5
+	lw	r1,264(r1)
+	sw	(r29),r1
+	sw	4(r29),r3
+	sw	8(r29),r4
+	jal	_lseek
+	nop	; not filled.
+	addi	r29,r29,#16
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r4,8(r29)
+	lw	r5,12(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsUnixSeek
+	.align 2
+.proc _FsUnixClose
+.global _FsUnixClose
+_FsUnixClose:
+;  Function 'FsUnixClose'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lw	r2,(r30)
+	addi	r29,r29,#-8
+	slli	r1,r2,#0x4
+	add	r1,r1,r2
+	slli	r1,r1,#0x2
+	sub	r1,r1,r2
+	slli	r1,r1,#0x2
+	lhi	r3,((_openfiles)>>16)&0xffff
+	addui	r3,r3,(_openfiles)&0xffff
+	add	r1,r1,r3
+	lw	r1,264(r1)
+	sw	(r29),r1
+	jal	_close
+	nop	; not filled.
+	addi	r29,r29,#8
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsUnixClose
+	.align 2
+.proc _FsUnixDelete
+.global _FsUnixDelete
+_FsUnixDelete:
+;  Function 'FsUnixDelete'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	addi	r1,r0,#-1
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsUnixDelete
+	.align 2
+.proc _FsDlxIo
+.global _FsDlxIo
+_FsDlxIo:
+;  Function 'FsDlxIo'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	addi	r1,r0,#1
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDlxIo
+	.align 2
+.proc _FsDlxRead
+.global _FsDlxRead
+_FsDlxRead:
+;  Function 'FsDlxRead'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	addi	r1,r0,#1
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDlxRead
+	.align 2
+.proc _FsDlxWrite
+.global _FsDlxWrite
+_FsDlxWrite:
+;  Function 'FsDlxWrite'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	addi	r1,r0,#1
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDlxWrite
+	.align 2
+.proc _FsDlxOpen
+.global _FsDlxOpen
+_FsDlxOpen:
+;  Function 'FsDlxOpen'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lw	r1,(r30)
+	slli	r2,r1,#0x4
+	add	r2,r2,r1
+	slli	r2,r2,#0x2
+	sub	r1,r2,r1
+	slli	r1,r1,#0x2
+	lhi	r31,((_openfiles)>>16)&0xffff
+	addui	r31,r31,(_openfiles)&0xffff
+	add	r1,r1,r31
+	addi	r31,r0,#0
+	sw	264(r1),r31
+	addi	r1,r0,#1
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDlxOpen
+	.align 2
+.proc _FsDlxSeek
+.global _FsDlxSeek
+_FsDlxSeek:
+;  Function 'FsDlxSeek'; 0 bytes of locals, 1 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	lw	r1,(r30)
+	slli	r2,r1,#0x4
+	add	r2,r2,r1
+	slli	r2,r2,#0x2
+	sub	r1,r2,r1
+	slli	r1,r1,#0x2
+	lhi	r31,((_openfiles)>>16)&0xffff
+	addui	r31,r31,(_openfiles)&0xffff
+	add	r1,r1,r31
+	lw	r1,264(r1)
+	lw	r2,0(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDlxSeek
+	.align 2
+.proc _FsDlxClose
+.global _FsDlxClose
+_FsDlxClose:
+;  Function 'FsDlxClose'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	addi	r1,r0,#1
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDlxClose
+	.align 2
+.proc _FsDlxDelete
+.global _FsDlxDelete
+_FsDlxDelete:
+;  Function 'FsDlxDelete'; 0 bytes of locals, 0 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#8	; alloc local storage
+	addi	r1,r0,#1
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsDlxDelete
+	.align 2
+.proc _FsModuleInit
+.global _FsModuleInit
+_FsModuleInit:
+;  Function 'FsModuleInit'; 0 bytes of locals, 2 regs to save.
+	sw	-4(r29),r30	; push fp
+	add	r30,r0,r29	; fp = sp
+	sw	-8(r29),r31	; push ret addr
+	subui	r29,r29,#16	; alloc local storage
+	sw	0(r29),r2
+	sw	4(r29),r3
+	lhi	r31,((_openfiles)>>16)&0xffff
+	addui	r31,r31,(_openfiles)&0xffff
+	addi	r2,r31,#8308
+L182:
+	addi	r3,r0,#0
+	sw	4(r31),r3
+	addi	r31,r31,#268
+	sle	r1,r31,r2
+	bnez	r1,L182
+	nop	; not filled.
+	lhi	r1,((_fs)>>16)&0xffff
+	addui	r1,r1,(_fs)&0xffff
+	lhi	r3,((_FsUnixOpen)>>16)&0xffff
+	addui	r3,r3,(_FsUnixOpen)&0xffff
+	sw	(r1),r3
+	lhi	r3,((_FsUnixClose)>>16)&0xffff
+	addui	r3,r3,(_FsUnixClose)&0xffff
+	sw	16(r1),r3
+	lhi	r3,((_FsUnixRead)>>16)&0xffff
+	addui	r3,r3,(_FsUnixRead)&0xffff
+	sw	4(r1),r3
+	lhi	r3,((_FsUnixWrite)>>16)&0xffff
+	addui	r3,r3,(_FsUnixWrite)&0xffff
+	sw	8(r1),r3
+	lhi	r3,((_FsUnixSeek)>>16)&0xffff
+	addui	r3,r3,(_FsUnixSeek)&0xffff
+	sw	12(r1),r3
+	lhi	r3,((_FsUnixDelete)>>16)&0xffff
+	addui	r3,r3,(_FsUnixDelete)&0xffff
+	sw	20(r1),r3
+	lhi	r3,((_FsDlxOpen)>>16)&0xffff
+	addui	r3,r3,(_FsDlxOpen)&0xffff
+	sw	24(r1),r3
+	lhi	r3,((_FsDlxClose)>>16)&0xffff
+	addui	r3,r3,(_FsDlxClose)&0xffff
+	sw	40(r1),r3
+	lhi	r3,((_FsDlxRead)>>16)&0xffff
+	addui	r3,r3,(_FsDlxRead)&0xffff
+	sw	28(r1),r3
+	lhi	r3,((_FsDlxWrite)>>16)&0xffff
+	addui	r3,r3,(_FsDlxWrite)&0xffff
+	sw	32(r1),r3
+	lhi	r3,((_FsDlxSeek)>>16)&0xffff
+	addui	r3,r3,(_FsDlxSeek)&0xffff
+	sw	36(r1),r3
+	lhi	r3,((_FsDlxDelete)>>16)&0xffff
+	addui	r3,r3,(_FsDlxDelete)&0xffff
+	sw	44(r1),r3
+	lw	r2,0(r29)
+	lw	r3,4(r29)
+	lw	r31,-8(r30)
+	add	r29,r0,r30
+	lw	r30,-4(r30)
+	jr	r31
+	nop
+.endproc _FsModuleInit
+.data
+	.align 2
+_fs:
+	.space 48
+	.align 2
+_openfiles:
+	.space 8576

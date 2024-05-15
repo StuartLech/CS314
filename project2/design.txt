@@ -1,0 +1,41 @@
+Part 1: Round Robin
+In the round the round robin with preemption scheduling every process when ready is inserted last on the run queue. 
+When a process is executed it has a quantam amount of time for it to do its job after that amount of time that process 
+is suspended and moved to the last place on the run queue. The next process on the run queue is executed. In this 
+scheduling algorithm assuming that each process takes the same amount of time to finish executing there is no priority 
+assigned to any process. Therefore, the first process created will also be the first process that will finish executing.
+
+Part 2: Lottery Scheduler
+
+Version 1:
+On my first version a process is prioritized by have duplications on the run queue and then the next process scheduled 
+is picked randomly on the run queue. The number of duplications of the process in the run queue is proportional to its 
+p_nice value. This means that the higher its p_nice value the more amount of its duplication on the run queue and the 
+more the chance of it being picked randomly by process ProcessSchedule() function. When we tried to implement this it 
+did not work because after a process is inserted multiple times on the run queue it would not execute at all. This is 
+because at first we failed to realize that only one process can be inserted on the run queue at one time.
+
+Version 2:
+On this version each process has no default value number of its tickets, the amount of tickets is stored on the process'
+link, not in the PCB itself, and the process' link's queue store the total number of tickets of every processes in it.
+The total number of tickets is updated by modifying the queue.h file. In QueueInIt() function, the total amount of tickets 
+is initialized to zero, every time a process is inserted or deleted from the queue, the total amount of tickets is added 
+or subtracted by the number of that process' amount of tickets. The winning ticket is found by a random number % total amount 
+of tickets on the run queue. The search for the next process to be scheduled starts from the first process on the run queue and 
+it reiterates in the amount of the winning ticket number until the process that has the winning number is selected.
+The reason why this did not work is because whenever it tries to find the total number of tickets on the run queue 
+it returns zero and the winning ticket can not be found because of the divide by zero interrupt. We think why it happened is 
+because the total amount of tickets it stored globally, which makes it hard to be implemented, and we may have forgotten to 
+update the total amount of tickets on the other part of the OS.
+
+Version 3: Final Version
+This is the version where everything works out. In this version the number of tickets is stored on the PCB itself, each process has a 
+default number of tickets of 100, Each process number of tickets is added proportionally to its p_nice value multiplied by 100, 
+and the total amount of tickets is calculated independently each time ProcessSchedule() is called by iterating over each processes
+on the run queue. We also edited the traps.c file where I limit the value of p_nice from zero to forty. The processes number of ticket is
+initialized to this default value on the ProcessModuleInIt() function, and is updated with its p_nice value on the ProcessFork() function.
+This time the green ticket is calculated by a random number modulo number of total amount of tickets plus one and the winning ticket is found
+the same way it was on version two. On userprog4.c there are four processes named A, B, C and D, A has a p_nice value of 0, B has a p_nice 
+value of 1, C has a p_nice value of 2, D has a p_nice value of 3. This means that the later processes are more prioritized and it should 
+finish executing earlier, even if they are created later than the other one. The output of this version shows exactly that, where process D
+is finished first then procedingly C, B and A.

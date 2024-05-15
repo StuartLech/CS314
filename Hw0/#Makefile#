@@ -1,0 +1,16 @@
+CC = gcc
+
+DIRS = utilities easy bits
+
+SRC = $(wildcard $(addsuffix /*.c, $(DIRS)))
+BIN = $(SRC:.c=)
+
+all: $(BIN)
+
+%:%.c
+
+	$(CC) -o $@ $<
+
+clean:
+
+	rm -f $(BIN)

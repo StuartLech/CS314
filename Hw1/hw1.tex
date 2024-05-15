@@ -1,0 +1,118 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{fancyvrb}
+\textwidth=7in
+\textheight=9.5in
+\topmargin=-1in
+\headheight=0in
+\headsep=.5in
+\hoffset  -.85in
+\hypersetup{colorlinks=true}
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}%
+
+\pagestyle{empty}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\begin{document}
+
+\begin{center}
+{\bf CS314 - Operating Systems Homework 1 (Fall '23)
+}
+\end{center}
+
+\setlength{\unitlength}{1in}
+\vspace{-.4in}
+\section{Administrivia}
+\vspace{-.3in}
+Homeworks should be done individually and turned in via Moodle. LaTeX
+version of this file is here: \verb#~/Public/cs314/hw1.tex# To generate a
+pdf with your solutions copy the above file to someplace in your home
+directory and compile with \verb#pdflatex hw1.tex#
+\vspace{-.3in}
+\section{Get On With It}
+\begin{enumerate}
+  \vspace{-.1in}
+  
+\item (20 pts) Rewrite the example from the ``Dining Philosophers''
+  lecture slide 
+  to working C code. Write a main() that creates one
+  for each philosopher. The number of philosophers should be passed in
+  via command line argument. Demonstrate that your solution works by
+  printing something when each philosopher changes state. Let the
+  program exit when each philosopher has eaten at least twice. Turn in
+  code and output. 
+      
+\item (80 points) Implement semaphores using the pthread
+  library. Consult the thread implementation in DLXOS for inspiration
+  (semaphores are implemented in synch.h and synch.c). \\Use
+  \verb$pthread_mutex_lock$ and \verb$pthread_mutex_unlock$ (see man
+  pthread\_mutex\_lock) to make the semaphore wait and post operations
+  atomic. \\Use \verb$pthread_cond_wait$ (see man
+  pthread\_cond\_timedwait, but don't use pthread\_cond\_timedwait) and
+  \verb$pthread_cond_signal$ (see man pthread\_cond\_signal). \\Test
+  your solution by substituting the pthread semaphores in your first
+  solution with your own semaphores. 
+
+  Note: Define your own sem\_signal and sem\_wait functions.
+  \textbf{not the ones found in semaphore.h. DO NOT INCLUDE semaphore.h}.
+
+  A general solution will include a semaphore struct like
+\begin{verbatim}
+  struct Sem{
+  int count;
+  pthread_cond_t cond;
+  pthread_mutex_t mutex;
+};
+\end{verbatim}
+
+\newpage
+
+\item (practice) Five jobs (A, B, C, D, and E) arrive 
+  in alphabetical order, in the following
+  quanta: 1, 3, 3, 6, 10, respectively. They have
+  estimated running times of 4, 5, 5, 3, and 8 
+minutes. Their priorities are 5, 4, 3, 2, and 1, respectively, with 5
+being the lowest priority.  For each of the
+following scheduling 
+algorithms, determine the mean process turnaround time. Ignore process
+switching overhead and assume a quantum of 1 minute. Show your work for
+partial credit. 
+\begin{itemize}
+\item Round robin.
+  % 19.5
+\item Priority scheduling.
+  %13.8
+\item First-come, first-served
+  %13.8
+\item Shortest-job first.
+  %12.8
+\end{itemize}
+
+
+\item (practice) The aging algorithm with $a=1/2$ is being used to predict run
+  times. The previous four runs, from oldest to most recent, are 8,
+  12, 10, and 14 msec. What is the sequence of predicted runtimes
+  starting with the first of the observed runs (8), ending with the
+  predicted runtime after the last observed run (14). (See Tanenbaum's
+  section on Scheduling in Real-Time Systems, Ch. 2)
+
+  %8, 10, 10, 12
+  
+\item (practice) A real-time system needs to handle one voice call that runs
+  every 10 msec and consumes 4 msec of CPU time per burst, plus a
+  video at 32 frames/sec, with each frame requiring 20 msec of CPU
+  time. Is this system schedulable? Explain.
+
+  %400+640 no
+  
+
+
+
+
+\end{enumerate}
+\vspace{-.2in}
+\section{What to Turn In}
+Turn in one file, preferrably a tgz or zip, containing the answers to
+the questions above, along with all working code and/or scripts, where applicable.
+
+\end{document}

@@ -1,0 +1,15 @@
+Only part 1 is accomplished. Part 2 has 0 progress
+In part 1, on memory.h I changged L1 and L2 size bits to 13 because the
+page size is 8kb which is 1111111111111. Then I changed L1 max entries to 
+64, because 512kb / 8kb = 54. In memory.c, in MemoryTranslateUserToSystem
+page number is limited ti be smaller than L1_MAX_ENTRIES. In process.c, Process
+FreeResources free all the pages in the process has, set npages in the pcb to 0
+, and free the page of the pcb itself. In ProcessFork(), pcb npages is initialized
+to 4 due to the allocation of the 3 text and data pages. User and system stacks
+starts from the bottom, therefore they are allocated from the final page table (
+index 63). SysStackArea is the address of that final page, and stackframe[PROOC
+ESSSETPSIZE] is set to 64. In ProcessKill(), the the pcb is removed from the
+run queue, ProcessFreeresources is called then ProcessSchedule. In PageFaultHand
+ler, ProcessKill is called if the pcb npages is above the limit of 16. The
+fault page is found by the pcb's stack at PROCESS_STACK_FAULT, and then the new page is allocated on the index of the fault page on the currentPCB page table.
+npages of the current PCB is then ioncreased by 1. 

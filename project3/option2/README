@@ -1,0 +1,25 @@
+# Create or Open a File System
+./filesystem -f myfilesystem
+
+# Add Files to the File System
+./filesystem -a hello.txt -f myfilesystem
+./filesystem -a testdir/samplefile.txt -f myfilesystem
+
+# List Contents of the File System
+./filesystem -l -f myfilesystem
+# Output:
+# File: hello.txt
+# File: samplefile.txt
+
+# Extract File and Compare
+./filesystem -e hello.txt -f myfilesystem > extracted_hello.txt
+diff hello.txt extracted_hello.txt
+# No output from diff indicates files are identical
+
+# Remove File from the File System
+./filesystem -r hello.txt -f myfilesystem
+
+# Final Listing
+./filesystem -l -f myfilesystem
+# Output:
+# File: samplefile.txt
